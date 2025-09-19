@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="home">
+
+        <div class="container">
+            
+            <h1>Spam Mail Detector</h1>
+            
+        <form id="spamForm">
+            <label for="text">Enter the text</label>
+            <textarea id="text" name="text" rows="4" required></textarea>
+            <button type="submit">Detect Mail</button>
+        </form>
+        
+        <div id="result"></div>
+        
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById("spamForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+      const text = document.getElementById("text").value;
+
+      const response = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await response.json();
+      document.getElementById("result").innerText = "Prediction: " + data.prediction;
+    });
+    </script>
+</body>
+</html>
